@@ -4,6 +4,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Arrays;
+import java.util.List;
+
 
 /**
  * Created by Intellij IDEA.
@@ -16,6 +19,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class IndexControl {
     @GetMapping("/")
     public String index(Model model) {
+        List<String> list = Arrays.asList("first", "second", "third");
+        model.addAttribute("elements", list);
         return "index";
     }
 }
