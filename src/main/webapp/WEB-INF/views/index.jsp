@@ -22,13 +22,19 @@
     <table class="table table-dark">
         <thead>
         <tr>
-            <th>Elements</th>
+            <th>Id</th>
+            <th>name</th>
+            <th>text</th>
+            <th>address</th>
         </tr>
         </thead>
         <tbody>
-        <c:forEach var="element" items="${elements}">
+        <c:forEach var="accident" items="${accidents}">
             <tr>
-                <td>${element}</td>
+                <td>${accident.key}</td>
+                <td>${accident.value.name}</td>
+                <td>${accident.value.text}</td>
+                <td>${accident.value.address}</td>
             </tr>
         </c:forEach>
         </tbody>
