@@ -1,13 +1,12 @@
 package ru.job4j.accident.repository;
 
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.operations.Actions;
 
+import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 /**
  * Created by Intellij IDEA.
@@ -17,39 +16,46 @@ import java.util.Map;
  * Date: 18.10.2020.
  */
 @Repository
-@Scope("singleton")
-@Data
-@EqualsAndHashCode
-public class AccidentMem {
-    private Map<Integer, Accident> accidents;
+public class AccidentMem implements Actions<Accident, Integer> {
+    private final Random rd = new Random();
+    private final Map<Integer, Accident> accidents = new HashMap<>();
 
-    public Map<Integer, Accident> getAllAccidents() {
-        fillAccidents();
+    @Override
+    public Accident add(Accident element) {
+        if (element.getId() == 0) {
+            int id = this.rd.nextInt(100000000);
+            while (this.accidents.containsKey(id)) {
+                id = this.rd.nextInt(100000000);
+            }
+            element.setId(id);
+            this.accidents.put(element.getId(), element);
+        }
+        this.accidents.put(element.getId(), element);
+        return element;
+    }
+
+    @Override
+    public boolean delete(int id) {
+        return false;
+    }
+
+    @Override
+    public Accident find(int id) {
+        return null;
+    }
+
+    @Override
+    public Map<Integer, Accident> getAllElements() {
         return this.accidents;
     }
 
-    private void fillAccidents() {
-        if (this.accidents == null) {
-            Accident accident = new Accident();
-            accident.setId(1);
-            accident.setName("name");
-            accident.setAddress("adress");
-            accident.setText("test");
-            this.accidents.put(accident.getId(), accident);
-
-            Accident accident2 = new Accident();
-            accident2.setId(2);
-            accident2.setName("name2");
-            accident2.setAddress("adress2");
-            accident2.setText("test2");
-            this.accidents.put(accident2.getId(), accident2);
-
-            Accident accident3 = new Accident();
-            accident3.setId(3);
-            accident3.setName("name3");
-            accident3.setAddress("adress3");
-            accident3.setText("test3");
-            this.accidents.put(accident3.getId(), accident3);
+    @Override
+    public boolean update(Accident element) {
+        boolean result = false;
+        if (this.accidents.containsKey(element.getId())) {
+            this.accidents.replace(element.getId(), element);
+            result = true;
         }
+        return result;
     }
 }

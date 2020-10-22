@@ -26,6 +26,7 @@
             <th>name</th>
             <th>text</th>
             <th>address</th>
+            <th></th>
         </tr>
         </thead>
         <tbody>
@@ -35,10 +36,20 @@
                 <td>${accident.value.name}</td>
                 <td>${accident.value.text}</td>
                 <td>${accident.value.address}</td>
+                <td>
+                    <form  action="<c:url value='/edit'/>" method='GET'>
+                        <input type='hidden' name="id" value=${accident.key}>
+                        <input type='hidden' name="name"  value=${accident.value.name}>
+                        <input type='hidden' name="text" value=${accident.value.text}>
+                        <input type='hidden' name="address" value=${accident.value.address}>
+                        <input name="submit" type="submit" value="Change"/>
+                    </form>
+                </td>
             </tr>
         </c:forEach>
         </tbody>
     </table>
 </div>
+<a href="<c:url value='/create'/>">Добавить инцидент</a>
 </body>
 </html>
