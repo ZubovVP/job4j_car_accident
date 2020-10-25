@@ -37,10 +37,6 @@ public class AccidentService implements Actions<Accident, Integer> {
         return false;
     }
 
-    @Override
-    public Accident find(int id) {
-        return null;
-    }
 
     @Override
     public Map<Integer, Accident> getAllElements() {
@@ -48,7 +44,7 @@ public class AccidentService implements Actions<Accident, Integer> {
     }
 
     @Override
-    public boolean update(Accident element) {
-        return element.getId() != 0 && !isNullOrEmpty(element.getName()) && !isNullOrEmpty(element.getAddress()) && !isNullOrEmpty(element.getText()) && this.accidentMem.update(element);
+    public Accident findById(int id) {
+        return id != 0 ? this.accidentMem.findById(id) : null;
     }
 }

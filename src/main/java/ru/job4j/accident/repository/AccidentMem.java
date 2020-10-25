@@ -28,10 +28,8 @@ public class AccidentMem implements Actions<Accident, Integer> {
                 id = this.rd.nextInt(100000000);
             }
             element.setId(id);
-            this.accidents.put(element.getId(), element);
         }
-        this.accidents.put(element.getId(), element);
-        return element;
+        return this.accidents.put(element.getId(), element);
     }
 
     @Override
@@ -39,10 +37,6 @@ public class AccidentMem implements Actions<Accident, Integer> {
         return false;
     }
 
-    @Override
-    public Accident find(int id) {
-        return null;
-    }
 
     @Override
     public Map<Integer, Accident> getAllElements() {
@@ -50,12 +44,7 @@ public class AccidentMem implements Actions<Accident, Integer> {
     }
 
     @Override
-    public boolean update(Accident element) {
-        boolean result = false;
-        if (this.accidents.containsKey(element.getId())) {
-            this.accidents.replace(element.getId(), element);
-            result = true;
-        }
-        return result;
+    public Accident findById(int id) {
+        return this.accidents.containsKey(id) ? this.accidents.get(id) : null;
     }
 }

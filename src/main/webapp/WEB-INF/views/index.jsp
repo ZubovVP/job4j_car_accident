@@ -37,13 +37,7 @@
                 <td>${accident.value.text}</td>
                 <td>${accident.value.address}</td>
                 <td>
-                    <form  action="<c:url value='/edit'/>" method='GET'>
-                        <input type='hidden' name="id" value=${accident.key}>
-                        <input type='hidden' name="name"  value=${accident.value.name}>
-                        <input type='hidden' name="text" value=${accident.value.text}>
-                        <input type='hidden' name="address" value=${accident.value.address}>
-                        <input name="submit" type="submit" value="Change"/>
-                    </form>
+                    <a href="<c:url value='/update?id=${accident.key}'/>">Update</a>
                 </td>
             </tr>
         </c:forEach>

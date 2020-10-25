@@ -6,6 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.service.AccidentService;
 
@@ -23,6 +24,7 @@ import java.util.Map;
 public class IndexControl {
     @Autowired
     private AccidentService accidentService;
+
 
     @GetMapping("/")
     public String index(Model model) {
@@ -42,14 +44,9 @@ public class IndexControl {
         return "redirect:/";
     }
 
-    @GetMapping("/edit")
-    public String edit(@ModelAttribute Accident accident) {
-        return "edit";
-    }
-
-    @PostMapping("/update")
-    public String update(@ModelAttribute Accident accident) {
-        accidentService.update(accident);
-        return "redirect:/";
+    @GetMapping("/update")
+    public String update(@RequestParam("id") int id, Model model) {
+        model.addAttribute("accident", accidentService.findById(id));
+        return "update";
     }
 }
