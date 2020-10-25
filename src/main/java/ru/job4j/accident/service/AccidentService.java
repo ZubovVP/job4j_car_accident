@@ -25,9 +25,11 @@ public class AccidentService implements Actions<Accident, Integer> {
 
     @Override
     public Accident add(Accident element) {
-        Accident result = null;
+        Accident result;
         if (!isNullOrEmpty(element.getName()) && !isNullOrEmpty(element.getAddress()) && !isNullOrEmpty(element.getText())) {
             result = this.accidentMem.add(element);
+        } else {
+            throw new NullPointerException("Name,address or text is null");
         }
         return result;
     }
