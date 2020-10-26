@@ -26,16 +26,18 @@
             <th>name</th>
             <th>text</th>
             <th>address</th>
+            <th>type</th>
             <th></th>
         </tr>
         </thead>
         <tbody>
         <c:forEach var="accident" items="${accidents}">
             <tr>
-                <td>${accident.key}</td>
+                <td>${accident.value.id}</td>
                 <td>${accident.value.name}</td>
                 <td>${accident.value.text}</td>
                 <td>${accident.value.address}</td>
+                <td>${accident.value.type.id}</td>
                 <td>
                     <a href="<c:url value='/update?id=${accident.key}'/>">Update</a>
                 </td>
