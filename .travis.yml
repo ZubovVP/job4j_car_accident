@@ -3,8 +3,11 @@ language: java
 jdk:
   - openjdk14
 
-# используем режим обычного пользователя для сборки проекта.
-sudo: false
+  # используем режим обычного пользователя для сборки проекта.
+  sudo: false
+    install: true
+script:
+  - mvn install
 
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
@@ -22,3 +25,6 @@ notifications:
   env:
     global:
       - CODECOV_TOKEN="ec576115-84b5-4c5c-bf84-f107a3212638"
+
+
+
