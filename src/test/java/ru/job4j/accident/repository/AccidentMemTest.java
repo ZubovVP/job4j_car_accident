@@ -3,6 +3,11 @@ package ru.job4j.accident.repository;
 import org.junit.Before;
 import org.junit.Test;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Rule;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
@@ -25,6 +30,10 @@ public class AccidentMemTest {
         this.accident.setName("name");
         this.accident.setAddress("address");
         this.accident.setText("text");
+        this.accident.setType(AccidentType.of(1, "TestType"));
+        Set<Rule> rules = new HashSet<>();
+        rules.add(Rule.of(1, "TestRule"));
+        this.accident.setRules(rules);
     }
 
     @Test
