@@ -3,9 +3,11 @@ package ru.job4j.accident.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.repository.AccidentMem;
 import ru.job4j.accident.operations.Actions;
 
+import java.util.List;
 import java.util.Map;
 
 import static joptsimple.internal.Strings.isNullOrEmpty;
@@ -19,7 +21,7 @@ import static joptsimple.internal.Strings.isNullOrEmpty;
  * Date: 18.10.2020.
  */
 @Service
-public class AccidentService implements Actions<Accident, Integer> {
+public class AccidentService implements Actions<Accident, Integer, AccidentType> {
     @Autowired
     private AccidentMem accidentMem;
 
@@ -48,5 +50,22 @@ public class AccidentService implements Actions<Accident, Integer> {
     @Override
     public Accident findById(int id) {
         return id != 0 ? this.accidentMem.findById(id) : null;
+    }
+
+    @Override
+    public void addType(AccidentType type) {
+        if (type != null && type.getId() > 0 && !isNullOrEmpty(type.getName())) {
+            this.accidentMem.addType(type);
+        }
+    }
+
+    @Override
+    public AccidentType getType(int id) {
+        return this.accidentMem.getType(id);
+    }
+
+    @Override
+    public List<AccidentType> getTypes() {
+        return this.accidentMem.getTypes();
     }
 }

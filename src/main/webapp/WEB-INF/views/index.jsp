@@ -38,7 +38,7 @@
                 <td>${accident.value.name}</td>
                 <td>${accident.value.text}</td>
                 <td>${accident.value.address}</td>
-                <td>${accident.value.type.id}</td>
+                <td>${accident.value.type.name}</td>
                 <td><c:forEach var="role" items="${accident.value.rules}">
                     ${role.name}<br>
                 </c:forEach>

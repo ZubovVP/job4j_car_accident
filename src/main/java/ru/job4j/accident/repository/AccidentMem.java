@@ -2,11 +2,10 @@ package ru.job4j.accident.repository;
 
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
+import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.operations.Actions;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by Intellij IDEA.
@@ -16,9 +15,10 @@ import java.util.Random;
  * Date: 18.10.2020.
  */
 @Repository
-public class AccidentMem implements Actions<Accident, Integer> {
+public class AccidentMem implements Actions<Accident, Integer, AccidentType> {
     private final Random rd = new Random();
     private final Map<Integer, Accident> accidents = new HashMap<>();
+    private final Map<Integer, AccidentType> types = new HashMap<>();
 
     @Override
     public Accident add(Accident element) {
@@ -29,6 +29,7 @@ public class AccidentMem implements Actions<Accident, Integer> {
             }
             element.setId(id);
         }
+        element.setType(getType(element.getType().getId()));
         return this.accidents.put(element.getId(), element);
     }
 
@@ -46,5 +47,22 @@ public class AccidentMem implements Actions<Accident, Integer> {
     @Override
     public Accident findById(int id) {
         return this.accidents.containsKey(id) ? this.accidents.get(id) : null;
+    }
+
+    @Override
+    public void addType(AccidentType type) {
+        if (!this.types.containsKey(type.getId())) {
+            this.types.put(type.getId(), type);
+        }
+    }
+
+    @Override
+    public AccidentType getType(int id) {
+        return this.types.get(id);
+    }
+
+    @Override
+    public List<AccidentType> getTypes() {
+        return new ArrayList<>(this.types.values());
     }
 }

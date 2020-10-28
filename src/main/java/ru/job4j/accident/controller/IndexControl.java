@@ -38,11 +38,11 @@ public class IndexControl {
 
     @GetMapping("/create")
     public String create(Model model) {
-        List<AccidentType> types = new ArrayList<>();
-        types.add(AccidentType.of(1, "Две машины"));
-        types.add(AccidentType.of(2, "Машина и человек"));
-        types.add(AccidentType.of(3, "Машина и велосипед"));
-        model.addAttribute("types", types);
+        this.accidentService.addType(AccidentType.of(1, "Две машины"));
+        this.accidentService.addType(AccidentType.of(2, "Машина и человек"));
+        this.accidentService.addType(AccidentType.of(3, "Машина и велосипед"));
+        model.addAttribute("types", this.accidentService.getTypes());
+
         List<Rule> rules = new ArrayList<>();
         rules.add(Rule.of(1, "Статья. 1"));
         rules.add(Rule.of(2, "Статья. 2"));
