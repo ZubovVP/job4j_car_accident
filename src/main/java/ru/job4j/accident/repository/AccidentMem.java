@@ -20,6 +20,12 @@ public class AccidentMem implements Actions<Accident, Integer, AccidentType> {
     private final Map<Integer, Accident> accidents = new HashMap<>();
     private final Map<Integer, AccidentType> types = new HashMap<>();
 
+    public AccidentMem() {
+        this.addType(AccidentType.of(1, "Две машины"));
+        this.addType(AccidentType.of(2, "Машина и человек"));
+        this.addType(AccidentType.of(3, "Машина и велосипед"));
+    }
+
     @Override
     public Accident add(Accident element) {
         if (element.getId() == 0) {

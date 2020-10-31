@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
-import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.service.AccidentService;
 
@@ -38,11 +37,7 @@ public class IndexControl {
 
     @GetMapping("/create")
     public String create(Model model) {
-        this.accidentService.addType(AccidentType.of(1, "Две машины"));
-        this.accidentService.addType(AccidentType.of(2, "Машина и человек"));
-        this.accidentService.addType(AccidentType.of(3, "Машина и велосипед"));
         model.addAttribute("types", this.accidentService.getTypes());
-
         List<Rule> rules = new ArrayList<>();
         rules.add(Rule.of(1, "Статья. 1"));
         rules.add(Rule.of(2, "Статья. 2"));

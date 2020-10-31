@@ -1,2 +1,1 @@
 [![Build Status](https://travis-ci.org/ZubovVP/job4j_car_accident.svg?branch=master)](https://travis-ci.org/ZubovVP/job4j_car_accident)
-[![codecov](https://codecov.io/gh/ZubovVP/ZubovVP/branch/master/graph/badge.svg)](https://codecov.io/gh/ZubovVP/ZubovVP)
