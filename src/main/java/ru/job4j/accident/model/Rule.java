@@ -1,6 +1,5 @@
 package ru.job4j.accident.model;
 
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

@@ -38,10 +38,7 @@ public class IndexControl {
     @GetMapping("/create")
     public String create(Model model) {
         model.addAttribute("types", this.accidentService.getTypes());
-        List<Rule> rules = new ArrayList<>();
-        rules.add(Rule.of(1, "Статья. 1"));
-        rules.add(Rule.of(2, "Статья. 2"));
-        rules.add(Rule.of(3, "Статья. 3"));
+        List<Rule> rules = accidentService.getRules();
         model.addAttribute("rules", rules);
         return "create";
     }

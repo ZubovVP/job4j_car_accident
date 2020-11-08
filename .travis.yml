@@ -5,7 +5,14 @@ jdk:
 
 # используем режим обычного пользователя для сборки проекта.
 sudo: false
+install: true
+script:
+  - mvn install
+services:
+  - postgresql
 
+before_install:
+  - psql -c "CREATE DATABASE auto_crash;" -U postgres
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
 after_success:

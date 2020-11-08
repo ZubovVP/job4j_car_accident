@@ -3,6 +3,7 @@ package ru.job4j.accident.repository;
 import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
+import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.operations.Actions;
 
 import java.util.*;
@@ -15,10 +16,11 @@ import java.util.*;
  * Date: 18.10.2020.
  */
 @Repository
-public class AccidentMem implements Actions<Accident, Integer, AccidentType> {
+public class AccidentMem implements Actions<Accident, Integer, AccidentType, Rule> {
     private final Random rd = new Random();
     private final Map<Integer, Accident> accidents = new HashMap<>();
     private final Map<Integer, AccidentType> types = new HashMap<>();
+    private final List<Rule> rules = new ArrayList<>();
 
     public AccidentMem() {
         this.addType(AccidentType.of(1, "Две машины"));
@@ -41,7 +43,8 @@ public class AccidentMem implements Actions<Accident, Integer, AccidentType> {
 
     @Override
     public boolean delete(int id) {
-        return false;
+        this.accidents.remove(id);
+        return true;
     }
 
 
@@ -70,5 +73,10 @@ public class AccidentMem implements Actions<Accident, Integer, AccidentType> {
     @Override
     public List<AccidentType> getTypes() {
         return new ArrayList<>(this.types.values());
+    }
+
+    @Override
+    public List<Rule> getRules() {
+        return this.rules;
     }
 }
