@@ -11,6 +11,7 @@ import ru.job4j.accident.operations.Actions;
 
 import java.sql.PreparedStatement;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 /**
@@ -20,7 +21,7 @@ import java.util.*;
  * Version: $Id$.
  * Date: 03.11.2020.
  */
-@Repository
+//@Repository
 public class AccidentJdbcTemplate implements Actions<Accident, Integer, AccidentType, Rule> {
     private final JdbcTemplate jdbc;
 
@@ -85,11 +86,11 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
      */
     @Override
     public Accident findById(int id) {
-        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accidents.id_accident_types AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR" +
-                        "  FROM accidents_rules" +
-                        " INNER JOIN rules ON accidents_rules.rules_id = rules.id" +
-                        " INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id" +
-                        " INNER JOIN accident_types ON accident_types.id = accidents.id_accident_types" +
+        // CHECKSTYLE:OFF
+        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accident_types.id AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR FROM accidents_rules " +
+                        "INNER JOIN rules ON accidents_rules.rules_id = rules.id " +
+                        "INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id " +
+                        "INNER JOIN accident_types ON accident_types.id = accidents.ids" +
                         " WHERE accidents.id = " + id,
                 (rs, row) -> {
                     AccidentType type = AccidentType.of(rs.getInt("idT"), rs.getString("nameT"));
@@ -105,19 +106,21 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
         }
         return listOfAccidents.get(0);
     }
+    // CHECKSTYLE:ON
+
 
     /**
      * Return all accidents from DB.
      *
      * @return - accidents.
      */
+    // CHECKSTYLE:OFF
     @Override
     public Map<Integer, Accident> getAllElements() {
-        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accidents.id_accident_types AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR" +
-                        "  FROM accidents_rules" +
-                        " INNER JOIN rules ON accidents_rules.rules_id = rules.id" +
-                        " INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id" +
-                        " INNER JOIN accident_types ON accident_types.id = accidents.id_accident_types",
+        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accident_types.id AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR FROM accidents_rules " +
+                        "INNER JOIN rules ON accidents_rules.rules_id = rules.id " +
+                        "INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id " +
+                        "INNER JOIN accident_types ON accident_types.id = accidents.ids",
                 (rs, row) -> {
                     AccidentType type = AccidentType.of(rs.getInt("idT"), rs.getString("nameT"));
                     Set<Rule> rules = new HashSet<>();
@@ -130,12 +133,10 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
                 listOfAccidents.remove(x - 1);
             }
         }
-        Map<Integer, Accident> mapOfAccidents = new HashMap<>();
-        for (Accident i : listOfAccidents) {
-            mapOfAccidents.put(i.getId(), i);
-        }
-        return mapOfAccidents;
+        return listOfAccidents.stream().collect(Collectors.toMap(Accident::getId, element -> element));
     }
+    // CHECKSTYLE:ON
+
 
     /**
      * Return all accidents of type from DB.
@@ -156,8 +157,7 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
      */
     @Override
     public AccidentType getType(int id) {
-        AccidentType result = jdbc.query("SELECT id, name " +
-                        "FROM accident_types WHERE id = " + id,
+        AccidentType result = jdbc.query("SELECT id, name FROM accident_types WHERE id = " + id,
                 (rs) -> {
                     return AccidentType.of(rs.getInt("id"), rs.getString("name"));
                 });
