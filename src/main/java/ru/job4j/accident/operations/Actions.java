@@ -7,6 +7,6 @@ package ru.job4j.accident.operations;
  * Version: $Id$.
  * Date: 25.04.2020.
  */
-public interface Actions<E, I, T, R> extends AddAble<E>, GetAllElementsAble<I, E>, FindById<E>, DeleteAble, GetTypesAble<T>, AddTypeAble<T>, GetAllTypes<T>, GetAllRulesAble<R> {
+public interface Actions<E, I, T, R> extends AddAble<E>, GetAllElementsAble<I, E>, FindById<E>, DeleteAble, GetTypesAble<T>, AddTypeAble<T>, GetAllTypes<T>, GetAllRulesAble<R>, UpdateAble<E> {
 
 }

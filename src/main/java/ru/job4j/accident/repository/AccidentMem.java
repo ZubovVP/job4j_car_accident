@@ -30,13 +30,11 @@ public class AccidentMem implements Actions<Accident, Integer, AccidentType, Rul
 
     @Override
     public Accident add(Accident element) {
-        if (element.getId() == 0) {
-            int id = this.rd.nextInt(100000000);
-            while (this.accidents.containsKey(id)) {
-                id = this.rd.nextInt(100000000);
-            }
-            element.setId(id);
+        int id = this.rd.nextInt(100000000);
+        while (this.accidents.containsKey(id)) {
+            id = this.rd.nextInt(100000000);
         }
+        element.setId(id);
         element.setType(getType(element.getType().getId()));
         return this.accidents.put(element.getId(), element);
     }
@@ -78,5 +76,10 @@ public class AccidentMem implements Actions<Accident, Integer, AccidentType, Rul
     @Override
     public List<Rule> getRules() {
         return this.rules;
+    }
+
+    @Override
+    public Accident update(Accident element) {
+        return this.accidents.replace(element.getId(), element);
     }
 }
