@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * Version: $Id$.
  * Date: 03.11.2020.
  */
-//@Repository
+@Repository
 public class AccidentJdbcTemplate implements Actions<Accident, Integer, AccidentType, Rule> {
     private final JdbcTemplate jdbc;
 
@@ -69,13 +69,12 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
      * Delete accident form DB.
      *
      * @param id - id.
-     * @return
+     * @return - result.
      */
     @Override
     public boolean delete(int id) {
-        Object[] args = new Object[]{id};
-        jdbc.update("DELETE FROM accidents_rules WHERE accidents_id = ?", args);
-        return jdbc.update("DELETE FROM accidents WHERE id = ?", args) == 1;
+        jdbc.update("DELETE FROM accidents_rules WHERE accidents_id = ?", id);
+        return true;
     }
 
     /**
@@ -87,16 +86,17 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
     @Override
     public Accident findById(int id) {
         // CHECKSTYLE:OFF
-        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accident_types.id AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR FROM accidents_rules " +
-                        "INNER JOIN rules ON accidents_rules.rules_id = rules.id " +
-                        "INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id " +
-                        "INNER JOIN accident_types ON accident_types.id = accidents.ids" +
+        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accidents.id_accident_types AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR" +
+                        " FROM accidents_rules" +
+                        " INNER JOIN rules ON accidents_rules.rules_id = rules.id" +
+                        " INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id" +
+                        " INNER JOIN accident_types ON accident_types.id = accidents.id_accident_types" +
                         " WHERE accidents.id = " + id,
                 (rs, row) -> {
                     AccidentType type = AccidentType.of(rs.getInt("idT"), rs.getString("nameT"));
                     Set<Rule> rules = new HashSet<>();
                     rules.add(Rule.of(rs.getInt("idR"), rs.getString("nameR")));
-                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("name"), type, rules);
+                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("address"), type, rules);
                 });
         for (int x = 1; x < listOfAccidents.size(); x++) {
             if (listOfAccidents.get(x - 1).getId() == listOfAccidents.get(x).getId()) {
@@ -117,15 +117,16 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
     // CHECKSTYLE:OFF
     @Override
     public Map<Integer, Accident> getAllElements() {
-        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accident_types.id AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR FROM accidents_rules " +
-                        "INNER JOIN rules ON accidents_rules.rules_id = rules.id " +
-                        "INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id " +
-                        "INNER JOIN accident_types ON accident_types.id = accidents.ids",
+        List<Accident> listOfAccidents = jdbc.query("SELECT accidents.id, accidents.text, accidents.address, accidents.name, accidents.id_accident_types AS idT, accident_types.name AS nameT, rules.id AS idR, rules.name AS nameR" +
+                        "  FROM accidents_rules" +
+                        " INNER JOIN rules ON accidents_rules.rules_id = rules.id" +
+                        " INNER JOIN accidents ON accidents_rules.accidents_id = accidents.id" +
+                        " INNER JOIN accident_types ON accident_types.id = accidents.id_accident_types",
                 (rs, row) -> {
                     AccidentType type = AccidentType.of(rs.getInt("idT"), rs.getString("nameT"));
                     Set<Rule> rules = new HashSet<>();
                     rules.add(Rule.of(rs.getInt("idR"), rs.getString("nameR")));
-                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("name"), type, rules);
+                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("address"), type, rules);
                 });
         for (int x = 1; x < listOfAccidents.size(); x++) {
             if (listOfAccidents.get(x - 1).getId() == listOfAccidents.get(x).getId()) {
@@ -158,9 +159,7 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
     @Override
     public AccidentType getType(int id) {
         AccidentType result = jdbc.query("SELECT id, name FROM accident_types WHERE id = " + id,
-                (rs) -> {
-                    return AccidentType.of(rs.getInt("id"), rs.getString("name"));
-                });
+                (rs, row) -> AccidentType.of(rs.getInt("id"), rs.getString("name"))).get(0);
         return result;
     }
 
@@ -173,5 +172,21 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
     public List<Rule> getRules() {
         return jdbc.query("SELECT id, name FROM rules",
                 (rs, row) -> Rule.of(rs.getInt("id"), rs.getString("name")));
+    }
+
+    @Override
+    public Accident update(Accident element) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("UPDATE accidents SET name = '").append(element.getName()).append("', text = '").append(element.getText()).append("', address = '").append(element.getAddress()).append("', id_accident_types = ").append(element.getType().getId()).append(" WHERE id = ").append(element.getId());
+        jdbc.update(sb.toString());
+        sb.setLength(0);
+        sb.append("DELETE FROM accidents_rules WHERE accidents_id = ").append(element.getId());
+        jdbc.update(sb.toString());
+        for (Rule rule : element.getRules()) {
+            sb.setLength(0);
+            jdbc.update("INSERT INTO accidents_rules (accidents_id, rules_id) VALUES (?, ?)",
+                    element.getId(), rule.getId());
+        }
+        return element;
     }
 }

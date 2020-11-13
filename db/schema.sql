@@ -3,6 +3,7 @@ CREATE TABLE accidents (
   name VARCHAR (2000) NOT NULL,
   text VARCHAR (2000) NOT NULL,
   address VARCHAR (2000) NOT NULL,
+  id_accident_types INTEGER REFERENCES accident_types(id)
 );
 
 CREATE TABLE accident_types (
