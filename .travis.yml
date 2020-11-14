@@ -9,11 +9,8 @@ script:
   - mvn install
 services:
   - postgresql
-
-before_install:
+before_script:
   - psql -c "CREATE DATABASE auto_crash;" -U postgres
-
-
 
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/
