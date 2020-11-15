@@ -3,6 +3,8 @@ package ru.job4j.accident.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
+
 
 /**
  * Created by Intellij IDEA.
@@ -13,9 +15,15 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode
+@Entity
+@Table(name = "accident_types")
 public class AccidentType {
-    private String name;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
+    private String name;
 
     public static AccidentType of(int id, String name) {
         AccidentType type = new AccidentType();

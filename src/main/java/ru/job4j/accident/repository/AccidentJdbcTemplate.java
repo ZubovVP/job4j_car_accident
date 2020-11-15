@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
  * Version: $Id$.
  * Date: 03.11.2020.
  */
-@Repository
+//@Repository
 public class AccidentJdbcTemplate implements Actions<Accident, Integer, AccidentType, Rule> {
     private final JdbcTemplate jdbc;
 

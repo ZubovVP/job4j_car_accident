@@ -4,6 +4,7 @@ package ru.job4j.accident.model;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
+import javax.persistence.*;
 import java.util.Set;
 
 /**
@@ -15,12 +16,30 @@ import java.util.Set;
  */
 @Data
 @EqualsAndHashCode
+@Entity
+@Table(name = "accidents")
 public class Accident {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
+    @Column(name = "name")
     private String name;
+
+    @Column(name = "text")
     private String text;
+
+    @Column(name = "address")
     private String address;
+
+    @ManyToOne
+    @JoinColumn(name = "id_accident_types")
     private AccidentType type;
+
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "accidents_rules", joinColumns = {
+            @JoinColumn(name = "accidents_id")},
+            inverseJoinColumns = {@JoinColumn(name = "rules_id")})
     private Set<Rule> rules;
 
     public static Accident of(int id, String name, String text, String address, AccidentType type, Set<Rule> rules) {
