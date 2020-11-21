@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
+import java.util.Comparator;
 
 /**
  * Created by Intellij IDEA.
@@ -16,7 +17,7 @@ import javax.persistence.*;
 @EqualsAndHashCode
 @Entity
 @Table(name = "rules")
-public class Rule {
+public class Rule implements Comparable<Rule> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -29,5 +30,10 @@ public class Rule {
         rule.id = id;
         rule.name = name;
         return rule;
+    }
+
+    @Override
+    public int compareTo(Rule o) {
+        return this.getId() - o.getId();
     }
 }

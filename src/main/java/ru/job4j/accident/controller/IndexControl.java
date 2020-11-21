@@ -11,6 +11,7 @@ import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.service.AccidentService;
+import ru.job4j.accident.service.AccidentServiceForSpringData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -26,7 +27,7 @@ import java.util.*;
 @Controller
 public class IndexControl {
     @Autowired
-    private AccidentService accidentService;
+    private AccidentServiceForSpringData accidentService;
 
 
     @GetMapping("/")
@@ -51,8 +52,6 @@ public class IndexControl {
         Set<Rule> rules = new HashSet<>();
         rules.add(rule);
         accident.setRules(rules);
-        String[] typeResult = req.getParameterValues("tIdName")[0].split("_");
-        accident.setType(AccidentType.of(Integer.parseInt(typeResult[0]), typeResult[1]));
         if (accident.getId() != 0) {
             accidentService.update(accident);
         } else {

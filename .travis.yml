@@ -2,7 +2,7 @@
 language: java
 # используем режим обычного пользователя для сборки проекта.
 jdk:
-  - openjdk12
+  - openjdk14
 sudo: false
 install: true
 script:

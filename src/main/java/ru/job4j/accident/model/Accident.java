@@ -36,7 +36,10 @@ public class Accident {
     @JoinColumn(name = "id_accident_types")
     private AccidentType type;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {
+            CascadeType.MERGE,
+            CascadeType.REFRESH
+    })
     @JoinTable(name = "accidents_rules", joinColumns = {
             @JoinColumn(name = "accidents_id")},
             inverseJoinColumns = {@JoinColumn(name = "rules_id")})
