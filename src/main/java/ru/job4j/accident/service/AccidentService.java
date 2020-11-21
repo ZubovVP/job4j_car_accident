@@ -7,7 +7,6 @@ import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.operations.Actions;
 import ru.job4j.accident.repository.AccidentHibernate;
-import ru.job4j.accident.repository.AccidentJdbcTemplate;
 
 import java.util.List;
 import java.util.Map;
