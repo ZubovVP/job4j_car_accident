@@ -156,11 +156,16 @@
                     <artifactId>liquibase-maven-plugin</artifactId>
                     <version>3.6.2</version>
                     <configuration>
-                        <changeLogFile>${basedir}/db/master.xml</changeLogFile>
-                        <url>${db.url}</url>
-                        <driver>${db.driver}</driver>
-                        <username>${db.username}</username>
-                        <password>${db.password}</password>
+                        <changeLogFile>db\master.xml</changeLogFile>
+                        <url>jdbc:postgresql://127.0.0.1:5432/auto_crash</url>
+                        <driver>org.postgresql.Driver</driver>
+                        <username>postgres</username>
+                        <password>password</password>
+                        <!--<changeLogFile>${basedir}\db\master.xml</changeLogFile>-->
+                        <!--<url>${db.url}</url>-->
+                        <!--<driver>${db.driver}</driver>-->
+                        <!--<username>${db.username}</username>-->
+                        <!--<password>${db.password}</password>-->
                     </configuration>
                     <executions>
                         <execution>
