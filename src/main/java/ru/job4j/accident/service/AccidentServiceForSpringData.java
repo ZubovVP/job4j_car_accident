@@ -32,7 +32,6 @@ public class AccidentServiceForSpringData implements Actions<Accident, Integer, 
     @Autowired
     RuleRepository rr;
 
-
     @Override
     public Accident add(Accident element) {
         Accident result;

@@ -1,12 +1,12 @@
 package ru.job4j.accident.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.operations.Actions;
-import ru.job4j.accident.repository.AccidentHibernate;
 
 import java.util.Collections;
 import java.util.List;
@@ -22,10 +22,11 @@ import static joptsimple.internal.Strings.isNullOrEmpty;
  * Version: $Id$.
  * Date: 18.10.2020.
  */
-//@Service
+@Service
 public class AccidentService implements Actions<Accident, Integer, AccidentType, Rule> {
     @Autowired
-    private AccidentHibernate accidentRepository;
+    @Qualifier("accidentHibernate")
+    private Actions accidentRepository;
 
     /**
      * Check accident and redirect on accidentRepository.
@@ -37,7 +38,7 @@ public class AccidentService implements Actions<Accident, Integer, AccidentType,
     public Accident add(Accident element) {
         Accident result;
         if (!isNullOrEmpty(element.getName()) && !isNullOrEmpty(element.getAddress()) && !isNullOrEmpty(element.getText()) && element.getType() != null && element.getRules() != null) {
-            result = this.accidentRepository.add(element);
+            result = (Accident) this.accidentRepository.add(element);
         } else {
             throw new NullPointerException("Name, address, text, type, rule is null");
         }
@@ -74,7 +75,7 @@ public class AccidentService implements Actions<Accident, Integer, AccidentType,
      */
     @Override
     public Accident findById(int id) {
-        return id != 0 ? this.accidentRepository.findById(id) : null;
+        return id != 0 ? (Accident) this.accidentRepository.findById(id) : null;
     }
 
     /**
@@ -97,7 +98,7 @@ public class AccidentService implements Actions<Accident, Integer, AccidentType,
      */
     @Override
     public AccidentType getType(int id) {
-        return this.accidentRepository.getType(id);
+        return (AccidentType) this.accidentRepository.getType(id);
     }
 
     /**
@@ -125,7 +126,7 @@ public class AccidentService implements Actions<Accident, Integer, AccidentType,
     @Override
     public Accident update(Accident element) {
         if (!isNullOrEmpty(element.getName()) && !isNullOrEmpty(element.getAddress()) && !isNullOrEmpty(element.getText()) && element.getType() != null && element.getRules() != null) {
-            element = this.accidentRepository.update(element);
+            element = (Accident) this.accidentRepository.update(element);
         } else {
             throw new NullPointerException("Name, address, text, type, rule is null");
         }
