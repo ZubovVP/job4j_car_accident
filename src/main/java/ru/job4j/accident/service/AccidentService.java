@@ -8,6 +8,7 @@ import ru.job4j.accident.model.Rule;
 import ru.job4j.accident.operations.Actions;
 import ru.job4j.accident.repository.AccidentHibernate;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ import static joptsimple.internal.Strings.isNullOrEmpty;
  * Version: $Id$.
  * Date: 18.10.2020.
  */
-@Service
+//@Service
 public class AccidentService implements Actions<Accident, Integer, AccidentType, Rule> {
     @Autowired
     private AccidentHibernate accidentRepository;
@@ -116,7 +117,9 @@ public class AccidentService implements Actions<Accident, Integer, AccidentType,
      */
     @Override
     public List<Rule> getRules() {
-        return this.accidentRepository.getRules();
+        List<Rule> result = this.accidentRepository.getRules();
+        Collections.sort(result);
+        return result;
     }
 
     @Override

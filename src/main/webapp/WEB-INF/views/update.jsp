@@ -24,11 +24,12 @@
         <tr>
             <td>Type:</td>
             <td>
-                <select name="tIdName">
+                <select name="type.id">
                     <c:forEach var="type" items="${types}">
-                        <option value="${type.id}_${type.name}">${type.name}</option>
+                        <option value="${type.id}">${type.name}</option>
                     </c:forEach>
-                </select></td>
+                </select>
+            </td>
         </tr>
         <tr>
             <td>Article:</td>
@@ -40,7 +41,7 @@
                 </select>
         </tr>
         <tr>
-            <td colspan='2'><input name="submit" type="submit" value="Update" /></td>
+            <td colspan='2'><input name="submit" type="submit" value="Update"/></td>
         </tr>
     </table>
 </form>

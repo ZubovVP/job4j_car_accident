@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.Rule;
-import ru.job4j.accident.service.AccidentService;
+import ru.job4j.accident.service.AccidentServiceForSpringData;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -25,7 +25,7 @@ import java.util.*;
 @Controller
 public class IndexControl {
     @Autowired
-    private AccidentService accidentService;
+    private AccidentServiceForSpringData accidentService;
 
 
     @GetMapping("/")

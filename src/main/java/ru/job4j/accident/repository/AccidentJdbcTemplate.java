@@ -2,6 +2,7 @@ package ru.job4j.accident.repository;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  * Version: $Id$.
  * Date: 03.11.2020.
  */
-//@Repository
+@Repository
 public class AccidentJdbcTemplate implements Actions<Accident, Integer, AccidentType, Rule> {
     private final JdbcTemplate jdbc;
 
