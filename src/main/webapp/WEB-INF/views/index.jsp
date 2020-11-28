@@ -19,6 +19,9 @@
 </head>
 <body>
 <div class="container">
+    <div>
+        Login as : ${user.username}
+    </div>
     <table class="table table-dark">
         <thead>
         <tr>

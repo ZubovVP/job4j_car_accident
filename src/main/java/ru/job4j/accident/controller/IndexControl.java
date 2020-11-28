@@ -31,6 +31,7 @@ public class IndexControl {
 
     @GetMapping("/")
     public String index(Model model) {
+        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
         Map<Integer, Accident> result = accidentService.getAllElements();
         model.addAttribute("accidents", result);
         return "index";
