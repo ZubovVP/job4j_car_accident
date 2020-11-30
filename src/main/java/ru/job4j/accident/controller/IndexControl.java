@@ -28,7 +28,6 @@ public class IndexControl {
     @Autowired
     private AccidentServiceForSpringData accidentService;
 
-
     @GetMapping("/")
     public String index(Model model) {
         model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
