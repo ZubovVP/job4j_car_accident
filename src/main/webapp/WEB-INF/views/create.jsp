@@ -43,6 +43,7 @@
             <td colspan='2'><input name="submit" type="submit" value="Сохранить"/></td>
         </tr>
     </table>
+    <input hidden name="status" value="Принята">
 </form>
 </body>
 </html>

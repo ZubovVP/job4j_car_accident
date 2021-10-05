@@ -12,17 +12,17 @@
 <form action="<c:url value='/save?id=${accident.id}'/>" method='POST'>
     <table>
         <tr>
-            <td>Name:</td>
+            <td>Имя:</td>
             <td><input type='text' name='name' value=${accident.name}></td>
             <br>
-            <td>Description:</td>
+            <td>Описание:</td>
             <td><input type='text' name='text' value=${accident.text}></td>
             <br>
-            <td>Address:</td>
+            <td>Адрес:</td>
             <td><input type='text' name='address' value=${accident.address}></td>
         </tr>
         <tr>
-            <td>Type:</td>
+            <td>Тип:</td>
             <td>
                 <select name="type.id">
                     <c:forEach var="type" items="${types}">
@@ -32,11 +32,20 @@
             </td>
         </tr>
         <tr>
-            <td>Article:</td>
+            <td>Статья нарушения:</td>
             <td>
                 <select name="rIdName" multiple>
                     <c:forEach var="rule" items="${rules}">
                         <option value="${rule.id}_${rule.name}">${rule.name}</option>
+                    </c:forEach>
+                </select>
+        </tr>
+        <tr>
+            <td>Статус:</td>
+            <td>
+                <select name="status" multiple>
+                    <c:forEach var="status" items="${statuses}">
+                        <option value="${status.name}">${status.name}</option>
                     </c:forEach>
                 </select>
         </tr>

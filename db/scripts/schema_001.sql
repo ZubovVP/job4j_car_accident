@@ -13,6 +13,7 @@ CREATE TABLE accident_types (
    name VARCHAR (2000) NOT NULL,
    text VARCHAR (2000) NOT NULL,
    address VARCHAR (2000) NOT NULL,
+   status VARCHAR (50) NOT NULL DEFAULT 'Accepted',
    id_accident_types INTEGER REFERENCES accident_types(id)
  );
 

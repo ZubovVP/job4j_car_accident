@@ -20,8 +20,14 @@
 <body>
 <div class="container">
     <div>
-        Login as : ${user.username}
+        <table class="table table-dark">
+            <tr>
+                <td align=left> Пользователь : ${user.username}</td>
+                <td align=right><a href="<c:url value='/logout'/>">Выйти</a></td>
+            </tr>
+        </table>
     </div>
+    <h1 align="center">Все нарушения</h1>
     <table class="table table-dark">
         <thead>
         <tr>
@@ -31,6 +37,7 @@
             <th>address</th>
             <th>type</th>
             <th>rule</th>
+            <th>status</th>
             <th></th>
         </tr>
         </thead>
@@ -46,14 +53,17 @@
                     ${role.name}<br>
                 </c:forEach>
                 </td>
-                <td>
-                    <a href="<c:url value='/update?id=${accident.key}'/>">Update</a>
-                </td>
+                <td>${accident.value.status}</td>
+                <c:if test="${role == 'ROLE_ADMIN'}">
+                    <td>
+                        <a href="<c:url value='/update?id=${accident.key}'/>">Update</a>
+                    </td>
+                </c:if>
             </tr>
         </c:forEach>
         </tbody>
     </table>
+    <a href="<c:url value='/create'/>">Добавить инцидент</a>
 </div>
-<a href="<c:url value='/create'/>">Добавить инцидент</a>
 </body>
 </html>

@@ -9,6 +9,7 @@ import ru.job4j.accident.config.JdbcConfig;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.model.StatusAccident;
 
 import javax.sql.DataSource;
 
@@ -52,7 +53,7 @@ public class AccidentJdbcTemplateTest {
     private Accident fillAccident(Accident accident) {
         Set<Rule> rules = new HashSet<>();
         rules.add(Rule.of(1, "Статья. 1"));
-        return Accident.of(0, "Name1", "Text1", "Address1", AccidentType.of(1, "Две машины"), rules);
+        return Accident.of(0, "Name1", "Text1", "Address1", AccidentType.of(1, "Две машины"), rules, StatusAccident.Принята);
     }
 
     @Test

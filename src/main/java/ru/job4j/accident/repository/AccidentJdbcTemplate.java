@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.model.StatusAccident;
 import ru.job4j.accident.operations.Actions;
 
 
@@ -96,7 +97,7 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
                     AccidentType type = AccidentType.of(rs.getInt("idT"), rs.getString("nameT"));
                     Set<Rule> rules = new HashSet<>();
                     rules.add(Rule.of(rs.getInt("idR"), rs.getString("nameR")));
-                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("address"), type, rules);
+                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("address"), type, rules, StatusAccident.Принята);
                 });
         for (int x = 1; x < listOfAccidents.size(); x++) {
             if (listOfAccidents.get(x - 1).getId() == listOfAccidents.get(x).getId()) {
@@ -126,7 +127,7 @@ public class AccidentJdbcTemplate implements Actions<Accident, Integer, Accident
                     AccidentType type = AccidentType.of(rs.getInt("idT"), rs.getString("nameT"));
                     Set<Rule> rules = new HashSet<>();
                     rules.add(Rule.of(rs.getInt("idR"), rs.getString("nameR")));
-                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("address"), type, rules);
+                    return Accident.of(rs.getInt("id"), rs.getString("name"), rs.getString("text"), rs.getString("address"), type, rules, StatusAccident.Принята);
                 });
         for (int x = 1; x < listOfAccidents.size(); x++) {
             if (listOfAccidents.get(x - 1).getId() == listOfAccidents.get(x).getId()) {

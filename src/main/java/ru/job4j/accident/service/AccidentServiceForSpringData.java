@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.AccidentType;
 import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.model.StatusAccident;
 import ru.job4j.accident.operations.Actions;
 import ru.job4j.accident.repository.AccidentRepository;
 import ru.job4j.accident.repository.AccidentTypeRepository;
@@ -52,7 +53,7 @@ public class AccidentServiceForSpringData implements Actions<Accident, Integer, 
 
     @Override
     public boolean delete(int id) {
-        this.ar.delete(Accident.of(id, "", "", "", null, null));
+        this.ar.delete(Accident.of(id, "", "", "", null, null, null));
         return true;
     }
 
@@ -91,7 +92,7 @@ public class AccidentServiceForSpringData implements Actions<Accident, Integer, 
 
     @Override
     public AccidentType getType(int id) {
-        Iterator<AccidentType> resultItr = this.at.findAllById(Arrays.asList(id)).iterator();
+        Iterator<AccidentType> resultItr = this.at.findAllById(Collections.singletonList(id)).iterator();
         return resultItr.hasNext() ? resultItr.next() : null;
     }
 

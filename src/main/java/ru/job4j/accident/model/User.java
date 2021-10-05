@@ -25,7 +25,7 @@ public class User {
     private String username;
     @Column(name = "password")
     private String password;
-    @Column(name = "enable")
+    @Column(name = "enabled")
     private boolean enabled;
     @ManyToOne
     @JoinColumn(name = "authority_id")

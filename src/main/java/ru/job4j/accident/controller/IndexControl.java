@@ -2,13 +2,17 @@ package ru.job4j.accident.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.job4j.accident.model.Accident;
 import ru.job4j.accident.model.Rule;
+import ru.job4j.accident.model.StatusAccident;
+import ru.job4j.accident.model.User;
 import ru.job4j.accident.service.AccidentServiceForSpringData;
 
 import javax.servlet.http.HttpServletRequest;
@@ -30,7 +34,9 @@ public class IndexControl {
 
     @GetMapping("/")
     public String index(Model model) {
-        model.addAttribute("user", SecurityContextHolder.getContext().getAuthentication().getPrincipal());
+        UserDetails realUser= (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("role", realUser.getAuthorities().iterator().next().getAuthority());
+        model.addAttribute("user", realUser);
         Map<Integer, Accident> result = accidentService.getAllElements();
         model.addAttribute("accidents", result);
         return "index";
@@ -63,6 +69,7 @@ public class IndexControl {
     public String update(@RequestParam("id") int id, Model model) {
         model.addAttribute("accident", accidentService.findById(id));
         model.addAttribute("types", this.accidentService.getTypes());
+        model.addAttribute("statuses", Arrays.asList(StatusAccident.values()));
         List<Rule> rules = accidentService.getRules();
         model.addAttribute("rules", rules);
         return "update";

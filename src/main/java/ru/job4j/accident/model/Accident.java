@@ -2,6 +2,7 @@ package ru.job4j.accident.model;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.util.Set;
@@ -44,7 +45,11 @@ public class Accident {
             inverseJoinColumns = {@JoinColumn(name = "rules_id")})
     private Set<Rule> rules;
 
-    public static Accident of(int id, String name, String text, String address, AccidentType type, Set<Rule> rules) {
+    @Column(name = "status")
+    @Enumerated(EnumType.STRING)
+    private StatusAccident status;
+
+    public static Accident of(int id, String name, String text, String address, AccidentType type, Set<Rule> rules, StatusAccident status) {
         Accident accident = new Accident();
         accident.id = id;
         accident.name = name;
@@ -52,6 +57,7 @@ public class Accident {
         accident.address = address;
         accident.type = type;
         accident.rules = rules;
+        accident.status = status;
         return accident;
     }
 }
