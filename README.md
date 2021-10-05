@@ -8,10 +8,10 @@ Car_accident - это Web проект, которые позволяет зан
 ![стартовая страница](src/main/resources/images/index_page.png)     
 В заявлении указывает: название, описание, адрес, тип нарушения (участники нарушения), статья нарушения.    
 У заявки есть статус. Принята. Отклонена. Завершена.    
-Инспекторам позволяется видеть все заявки и изменять.     
-![стартовая страница](src/main/resources/images/index_page(admin).png)  
+Инспекторам позволяется видеть все заявки и изменять.   
+![стартовая страница](src/main/resources/images/index_page(admin).png)       
 Изменение заявки осуществляется через заполнение формы.     
-![стартовая страница](src/main/resources/images/corret_accident.png)    
+![изменение_заявки](src/main/resources/images/corret_accident.png)    
 Данный проект разрабатывался на основе следующих модулей Spring:    
 1) Spring Core Container (Beans, Core, Context, SpEl);  
 2) Spring Data (JDBC, ORM); 
